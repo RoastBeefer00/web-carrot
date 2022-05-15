@@ -1,9 +1,23 @@
 <script>
     export let recipes;
 
-    function removeComponent(title) {
+    async function getRecipes() {
+		let response = await fetch("http://localhost:8050/api/getrandom");
+		let recipes = await response.json();
+		return recipes;
+	}
+
+    function removeRecipe(title) {
 		$storeFE = $storeFE.filter(r => r.title !== title);
 	}
+
+    async function replaceRecipe(recipe) {
+        for (let index = 0; index < $storeFE.length; index++) {
+            if ($storeFE[index] == recipe) {
+                $storeFE[index] = await getRecipes();
+            } 
+        }
+    }
 
     import { storeFE } from '../scripts/store.js'
 
@@ -32,9 +46,8 @@
             <p>Loading...</p>
         {:then recipes}
             <CardHeader>
-                <CardTitle>{recipes.title}</CardTitle>
-                <CardSubtitle>Prep Time: {recipes.time}</CardSubtitle>
-                <Button on:click={removeComponent(recipes.title)}>Remove</Button>
+                <Button on:click={removeRecipe(recipes.title)}>Remove</Button>
+                <Button on:click={replaceRecipe(recipes)}>Replace</Button>
             </CardHeader>
             <CardBody>
                 <CardTitle>Ingredients</CardTitle>
@@ -54,8 +67,6 @@
                 {/each}
                 </ListGroup>
             </CardBody>
-        {:catch error}
-            <p style="color: red">{error.message}</p>
         {/await}
     </Card>
 </div>

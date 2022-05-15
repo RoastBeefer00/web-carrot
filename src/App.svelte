@@ -11,6 +11,12 @@
 		console.log($storeFE);
 	}
 
+	async function addMultipleRecipes(number) {
+		for (let index = 0; index < number; index++) {
+			await addItem();
+		}
+	}
+
 	import { 
 		Button,
 		Card,
@@ -26,8 +32,13 @@
 		ListGroupItem,
 		Container,
 		Row,
-		Col
+		Col,
+		Accordion,
+		AccordionItem,
+		Form
 	} from 'sveltestrap';
+
+	let value=1;
 
 	import RecipeCard from '../public/card.svelte';
 	import { storeFE } from '../scripts/store.js'
@@ -36,13 +47,24 @@
 <main>
 	<h1>We need to cook.</h1>
 	<div>
-		<Button size="lg" on:click={addItem}>Add a recipe!</Button>
+			<Input
+			  type="range"
+			  min={1}
+			  max={5}
+			  bind:value
+			  style="width:25%"
+			/>
+			<Button on:click={addMultipleRecipes(value)}>Add {value} recipe(s)!</Button>
 	</div>
 
 	<div>
-		{#each $storeFE as recipe}
-			<RecipeCard recipes={recipe}/>
-		{/each}
+		<Accordion stayOpen style="width:60%">
+			{#each $storeFE as recipe}
+				<AccordionItem header="{recipe.title} ({recipe.time})">
+					<RecipeCard recipes={recipe}/>
+				</AccordionItem>
+			{/each}
+		</Accordion>
 	</div>
 </main>
 
@@ -65,5 +87,9 @@
 		main {
 			max-width: none;
 		}
+	}
+
+	.my-div {
+		display: inline
 	}
 </style>
