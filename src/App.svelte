@@ -5,6 +5,19 @@
 		return recipes;
 	}
 
+	async function getFilteredRecipes(filter) {
+		let request = "http://localhost:8050/api/filter/" + filter;
+		console.log(request);
+		let response = await fetch(request);
+		let recipes = await response.json();
+
+		var l = $storeFE.length;
+		 recipes.recipes.forEach(element => {
+			$storeFE[l] = element;
+			l ++;
+		});	
+	}
+
 	async function addItem(){
 		var l = $storeFE.length;	// get our current items list count
 		$storeFE[l] =  await getRecipes();
@@ -38,7 +51,8 @@
 		Form
 	} from 'sveltestrap';
 
-	let value=1;
+	let value = 1;
+	let filter;
 
 	import RecipeCard from '../public/card.svelte';
 	import { storeFE } from '../scripts/store.js'
@@ -46,6 +60,15 @@
 
 <main>
 	<h1>We need to cook.</h1>
+	<div>
+		<Input
+			type="text"
+			placeholder="Filter for something..."
+			bind:value={filter}
+			style="width:25%"
+		/>
+		<Button on:click={getFilteredRecipes(filter)}>Filter</Button>
+	</div>
 	<div>
 			<Input
 			  type="range"

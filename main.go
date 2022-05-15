@@ -9,6 +9,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -86,8 +87,33 @@ func getAllRecipes(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(recipes)
 }
 
+func getFilteredRecipes(w http.ResponseWriter, r *http.Request) {
+	// keys, ok := r.URL.Query()["key"]
+	key := strings.TrimPrefix(r.URL.Path, "/api/filter/")
+	// if !ok || len(keys[0]) < 1 {
+	// 	log.Println("Url Param 'key' is missing")
+	// 	return
+	// }
+
+	// Query()["key"] will return an array of items,
+	// we only want the single item.
+	//key := keys[0]
+
+	log.Println("Url Param 'key' is: " + key)
+
+	recipes := getJson()
+	var ret Recipes
+	for _, recipe := range recipes.Recipes {
+		if strings.Contains(strings.ToLower(recipe.Title), strings.ToLower(key)) {
+			ret.Recipes = append(ret.Recipes, recipe)
+		}
+	}
+	json.NewEncoder(w).Encode(ret)
+}
+
 func main() {
 	http.HandleFunc("/api/getrandom", corsHandler(getRandomRecipe))
 	http.HandleFunc("/api/getall", corsHandler(getAllRecipes))
+	http.HandleFunc("/api/filter/", corsHandler(getFilteredRecipes))
 	log.Fatal(http.ListenAndServe(":8050", nil))
 }
