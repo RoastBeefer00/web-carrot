@@ -58,13 +58,9 @@
 	</div>
 
 	<div>
-		<Accordion stayOpen style="width:60%">
-			{#each $storeFE as recipe}
-				<AccordionItem header="{recipe.title} ({recipe.time})">
-					<RecipeCard recipes={recipe}/>
-				</AccordionItem>
-			{/each}
-		</Accordion>
+		{#each $storeFE as recipe}
+			<RecipeCard recipes={recipe}/>
+		{/each}
 	</div>
 </main>
 

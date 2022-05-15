@@ -19,6 +19,12 @@
         }
     }
 
+    let visible = false;
+
+    function toggle() {
+        visible = !visible;
+    }
+
     import { storeFE } from '../scripts/store.js'
 
 	import { 
@@ -46,9 +52,18 @@
             <p>Loading...</p>
         {:then recipes}
             <CardHeader>
+                <CardTitle>{recipes.title}</CardTitle>
+                <CardSubtitle>{recipes.time}</CardSubtitle>
                 <Button on:click={removeRecipe(recipes.title)}>Remove</Button>
                 <Button on:click={replaceRecipe(recipes)}>Replace</Button>
+                {#if !visible}
+                <Button on:click={toggle}>Show Recipe</Button>
+                {/if}
+                {#if visible}
+                <Button on:click={toggle}>Hide Recipe</Button>
+                {/if}
             </CardHeader>
+            {#if visible}
             <CardBody>
                 <CardTitle>Ingredients</CardTitle>
                 <Container>
@@ -67,6 +82,7 @@
                 {/each}
                 </ListGroup>
             </CardBody>
+            {/if}
         {/await}
     </Card>
 </div>
