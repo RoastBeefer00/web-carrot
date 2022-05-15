@@ -1,12 +1,11 @@
 <script>
-	// async function getRecipes() {
-	// 	let response = await fetch("http://localhost:8050/api/getrandom");
-	// 	let recipes = await response.json();
-	// 	return recipes;
-	// }
-	// const promise = getRecipes();
-
     export let recipes;
+
+    function removeComponent(title) {
+		$storeFE = $storeFE.filter(r => r.title !== title);
+	}
+
+    import { storeFE } from '../scripts/store.js'
 
 	import { 
 		Button,
@@ -35,6 +34,7 @@
             <CardHeader>
                 <CardTitle>{recipes.title}</CardTitle>
                 <CardSubtitle>Prep Time: {recipes.time}</CardSubtitle>
+                <Button on:click={removeComponent(recipes.title)}>Remove</Button>
             </CardHeader>
             <CardBody>
                 <CardTitle>Ingredients</CardTitle>

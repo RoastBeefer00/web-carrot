@@ -4,13 +4,12 @@
 		let recipes = await response.json();
 		return recipes;
 	}
-	// const promise = getRecipes();
 
-	// let recipes = async function  getRecipes() {
-    // 	let response = await fetch("http://localhost:8050/api/getrandom");
-	// 	console.log(response.json)
-	// 	return response.json
-    //   }
+	async function addItem(){
+		var l = $storeFE.length;	// get our current items list count
+		$storeFE[l] =  await getRecipes();
+		console.log($storeFE);
+	}
 
 	import { 
 		Button,
@@ -30,62 +29,20 @@
 		Col
 	} from 'sveltestrap';
 
-	let visible = false
-	function toggle(){
-		visible = !visible
-	}
-
 	import RecipeCard from '../public/card.svelte';
+	import { storeFE } from '../scripts/store.js'
 </script>
 
 <main>
-	{#if !visible}
+	<h1>We need to cook.</h1>
 	<div>
-		<Button size="lg" on:click={toggle}>I am a button</Button>
+		<Button size="lg" on:click={addItem}>Add a recipe!</Button>
 	</div>
-	{/if}
-	<!-- <Recipes/> -->
+
 	<div>
-		{#if visible}
-		<Button on:click={toggle}> button 2 </Button>
-		<RecipeCard recipes={getRecipes()}/>
-		<RecipeCard recipes={getRecipes()}/>
-		<RecipeCard recipes={getRecipes()}/>
-		<RecipeCard recipes={getRecipes()}/>
-
-			
-
-		<!-- <Card class="mb-3">
-			{#await promise}
-				<p>Loading...</p>
-			{:then recipes}
-				<CardHeader>
-					<CardTitle>{recipes.title}</CardTitle>
-					<CardSubtitle>Prep Time: {recipes.time}</CardSubtitle>
-				</CardHeader>
-				<CardBody>
-					<CardTitle>Ingredients</CardTitle>
-					<Container>
-						<Row cols={4}>
-							{#each recipes.ingredients as ingredient}
-								<Col>
-									<Input id="c1" type ="checkbox" label={ingredient} />
-								</Col>
-							{/each}
-						</Row>
-					</Container>
-					<h1>Steps</h1>
-					<ListGroup numbered>
-					{#each recipes.steps as step}
-						<ListGroupItem>{step}</ListGroupItem>
-					{/each}
-					</ListGroup>
-				</CardBody>
-			{:catch error}
-				<p style="color: red">{error.message}</p>
-			{/await}
-		</Card> -->
-		{/if}
+		{#each $storeFE as recipe}
+			<RecipeCard recipes={recipe}/>
+		{/each}
 	</div>
 </main>
 
