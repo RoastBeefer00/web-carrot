@@ -30,6 +30,10 @@
 		}
 	}
 
+	function removeAllRecipes() {
+		$storeFE = [];
+	}
+
 	import { 
 		Button,
 		Card,
@@ -51,7 +55,7 @@
 		Form
 	} from 'sveltestrap';
 
-	let value = 1;
+	let value;
 	let filter;
 
 	import RecipeCard from '../public/card.svelte';
@@ -60,24 +64,27 @@
 
 <main>
 	<h1>We need to cook.</h1>
-	<div>
+	<div style="white-space: nowrap">
 		<Input
 			type="text"
-			placeholder="Filter for something..."
+			placeholder="Search for something..."
 			bind:value={filter}
-			style="width:25%"
+			style="width:25%; display: inline-block"
+			on:keypress
 		/>
-		<Button on:click={getFilteredRecipes(filter)}>Filter</Button>
-	</div>
-	<div>
-			<Input
-			  type="range"
-			  min={1}
-			  max={5}
-			  bind:value
-			  style="width:25%"
-			/>
-			<Button on:click={addMultipleRecipes(value)}>Add {value} recipe(s)!</Button>
+		<Button style="display: inline-block; margin-left:20px; background:blue" on:click={getFilteredRecipes(filter)}>Search</Button>
+		<p style="display: inline-block; margin-left:20px">or</p>
+		<Input
+			type="number"
+			min={1}
+			bind:value
+			style="width:25%; display: inline-block; margin-left:20px"
+			placeholder="Add # of random recipes..."
+		/>
+		{#if value!=null}
+		<Button style="display: inline-block; margin-left: 20px; background:blue" on:click={addMultipleRecipes(value)}>Add {value} recipe(s)!</Button>
+		{/if}
+		<Button style="float:right; background:red" on:click={removeAllRecipes}>Remove All</Button>
 	</div>
 
 	<div>
@@ -106,9 +113,5 @@
 		main {
 			max-width: none;
 		}
-	}
-
-	.my-div {
-		display: inline
 	}
 </style>
