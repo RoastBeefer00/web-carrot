@@ -4,13 +4,35 @@
 		let recipes = await response.json();
 		return recipes;
 	}
-	// const promise = getRecipes();
 
-	// let recipes = async function  getRecipes() {
-    // 	let response = await fetch("http://localhost:8050/api/getrandom");
-	// 	console.log(response.json)
-	// 	return response.json
-    //   }
+	async function getFilteredRecipes(filter) {
+		let request = "http://localhost:8050/api/filter/" + filter;
+		console.log(request);
+		let response = await fetch(request);
+		let recipes = await response.json();
+
+		var l = $storeFE.length;
+		 recipes.recipes.forEach(element => {
+			$storeFE[l] = element;
+			l ++;
+		});	
+	}
+
+	async function addItem(){
+		var l = $storeFE.length;	// get our current items list count
+		$storeFE[l] =  await getRecipes();
+		console.log($storeFE);
+	}
+
+	async function addMultipleRecipes(number) {
+		for (let index = 0; index < number; index++) {
+			await addItem();
+		}
+	}
+
+	function removeAllRecipes() {
+		$storeFE = [];
+	}
 
 	import { 
 		Button,
@@ -27,65 +49,48 @@
 		ListGroupItem,
 		Container,
 		Row,
-		Col
+		Col,
+		Accordion,
+		AccordionItem,
+		Form
 	} from 'sveltestrap';
 
-	let visible = false
-	function toggle(){
-		visible = !visible
-	}
+	let value;
+	let filter;
 
 	import RecipeCard from '../public/card.svelte';
+	import { storeFE } from '../scripts/store.js'
 </script>
 
 <main>
-	{#if !visible}
-	<div>
-		<Button size="lg" on:click={toggle}>I am a button</Button>
-	</div>
-	{/if}
-	<!-- <Recipes/> -->
-	<div>
-		{#if visible}
-		<Button on:click={toggle}> button 2 </Button>
-		<RecipeCard recipes={getRecipes()}/>
-		<RecipeCard recipes={getRecipes()}/>
-		<RecipeCard recipes={getRecipes()}/>
-		<RecipeCard recipes={getRecipes()}/>
-
-			
-
-		<!-- <Card class="mb-3">
-			{#await promise}
-				<p>Loading...</p>
-			{:then recipes}
-				<CardHeader>
-					<CardTitle>{recipes.title}</CardTitle>
-					<CardSubtitle>Prep Time: {recipes.time}</CardSubtitle>
-				</CardHeader>
-				<CardBody>
-					<CardTitle>Ingredients</CardTitle>
-					<Container>
-						<Row cols={4}>
-							{#each recipes.ingredients as ingredient}
-								<Col>
-									<Input id="c1" type ="checkbox" label={ingredient} />
-								</Col>
-							{/each}
-						</Row>
-					</Container>
-					<h1>Steps</h1>
-					<ListGroup numbered>
-					{#each recipes.steps as step}
-						<ListGroupItem>{step}</ListGroupItem>
-					{/each}
-					</ListGroup>
-				</CardBody>
-			{:catch error}
-				<p style="color: red">{error.message}</p>
-			{/await}
-		</Card> -->
+	<h1>We need to cook.</h1>
+	<div style="white-space: nowrap">
+		<Input
+			type="text"
+			placeholder="Search for something..."
+			bind:value={filter}
+			style="width:25%; display: inline-block"
+			on:keypress
+		/>
+		<Button style="display: inline-block; margin-left:20px; background:blue" on:click={getFilteredRecipes(filter)}>Search</Button>
+		<p style="display: inline-block; margin-left:20px">or</p>
+		<Input
+			type="number"
+			min={1}
+			bind:value
+			style="width:25%; display: inline-block; margin-left:20px"
+			placeholder="Add # of random recipes..."
+		/>
+		{#if value!=null}
+		<Button style="display: inline-block; margin-left: 20px; background:blue" on:click={addMultipleRecipes(value)}>Add {value} recipe(s)!</Button>
 		{/if}
+		<Button style="float:right; background:red" on:click={removeAllRecipes}>Remove All</Button>
+	</div>
+
+	<div>
+		{#each $storeFE as recipe}
+			<RecipeCard recipes={recipe}/>
+		{/each}
 	</div>
 </main>
 

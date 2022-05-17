@@ -1,12 +1,31 @@
 <script>
-	// async function getRecipes() {
-	// 	let response = await fetch("http://localhost:8050/api/getrandom");
-	// 	let recipes = await response.json();
-	// 	return recipes;
-	// }
-	// const promise = getRecipes();
-
     export let recipes;
+
+    async function getRecipes() {
+		let response = await fetch("http://localhost:8050/api/getrandom");
+		let recipes = await response.json();
+		return recipes;
+	}
+
+    function removeRecipe(title) {
+		$storeFE = $storeFE.filter(r => r.title !== title);
+	}
+
+    async function replaceRecipe(recipe) {
+        for (let index = 0; index < $storeFE.length; index++) {
+            if ($storeFE[index] == recipe) {
+                $storeFE[index] = await getRecipes();
+            } 
+        }
+    }
+
+    let visible = false;
+
+    function toggle() {
+        visible = !visible;
+    }
+
+    import { storeFE } from '../scripts/store.js'
 
 	import { 
 		Button,
@@ -34,8 +53,17 @@
         {:then recipes}
             <CardHeader>
                 <CardTitle>{recipes.title}</CardTitle>
-                <CardSubtitle>Prep Time: {recipes.time}</CardSubtitle>
+                <CardSubtitle>{recipes.time}</CardSubtitle>
+                <Button on:click={removeRecipe(recipes.title)}>Remove</Button>
+                <Button on:click={replaceRecipe(recipes)}>Replace</Button>
+                {#if !visible}
+                <Button on:click={toggle}>Show Recipe</Button>
+                {/if}
+                {#if visible}
+                <Button on:click={toggle}>Hide Recipe</Button>
+                {/if}
             </CardHeader>
+            {#if visible}
             <CardBody>
                 <CardTitle>Ingredients</CardTitle>
                 <Container>
@@ -54,8 +82,7 @@
                 {/each}
                 </ListGroup>
             </CardBody>
-        {:catch error}
-            <p style="color: red">{error.message}</p>
+            {/if}
         {/await}
     </Card>
 </div>
