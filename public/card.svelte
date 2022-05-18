@@ -1,6 +1,4 @@
 <script>
-    export let recipes;
-
     async function getRecipes() {
 		let response = await fetch("http://localhost:8050/api/getrandom");
 		let recipes = await response.json();
@@ -19,31 +17,31 @@
         }
     }
 
-    let visible = false;
-
     function toggle() {
         visible = !visible;
     }
 
-    import { storeFE } from '../scripts/store.js'
+    export let recipes;
+    let visible = false;
 
 	import { 
 		Button,
 		Card,
 		CardBody,
-		CardFooter,
 		CardHeader,
 		CardSubtitle,
-		CardText,
 		CardTitle,
-		FormGroup,
 		Input,
 		ListGroup,
 		ListGroupItem,
 		Container,
 		Row,
-		Col
+		Col,
+        Icon
 	} from 'sveltestrap';
+
+    import { storeFE } from '../scripts/store.js'
+    import { slide } from 'svelte/transition';
 </script>
 
 <div>
@@ -51,37 +49,34 @@
         {#await recipes}
             <p>Loading...</p>
         {:then recipes}
-            <CardHeader>
-                <CardTitle>{recipes.title}</CardTitle>
-                <CardSubtitle>{recipes.time}</CardSubtitle>
-                <Button on:click={removeRecipe(recipes.title)}>Remove</Button>
-                <Button on:click={replaceRecipe(recipes)}>Replace</Button>
-                {#if !visible}
-                <Button on:click={toggle}>Show Recipe</Button>
-                {/if}
-                {#if visible}
-                <Button on:click={toggle}>Hide Recipe</Button>
-                {/if}
+            <CardHeader style="background:#05386B">
+                <CardTitle style="color:#EDF5E1;">{recipes.title}</CardTitle>
+                <CardSubtitle style="color:#EDF5E1">{recipes.time}</CardSubtitle>
+                <Button style="background:#379683; color:#EDF5E1" on:click={toggle}><Icon name={visible ? "chevron-up" : "chevron-down"} /></Button>
+                <Button style="float:right; margin-left:20px; background:#379683; color:#EDF5E1" on:click={removeRecipe(recipes.title)}><Icon name="trash" /></Button>
+                <Button style="float:right; margin-left:100px; background:#379683; color:#EDF5E1" on:click={replaceRecipe(recipes)}><Icon name="arrow-repeat" /></Button>
             </CardHeader>
             {#if visible}
-            <CardBody>
-                <CardTitle>Ingredients</CardTitle>
-                <Container>
-                    <Row cols={4}>
-                        {#each recipes.ingredients as ingredient}
-                            <Col>
-                                <Input id="c1" type ="checkbox" label={ingredient} />
-                            </Col>
-                        {/each}
-                    </Row>
-                </Container>
-                <h1>Steps</h1>
-                <ListGroup numbered>
-                {#each recipes.steps as step}
-                    <ListGroupItem>{step}</ListGroupItem>
-                {/each}
-                </ListGroup>
-            </CardBody>
+            <div transition:slide>
+                <CardBody style="background:#8EE4AF">
+                    <CardTitle style="color:#05386B">Ingredients</CardTitle>
+                    <Container>
+                        <Row cols={4}>
+                            {#each recipes.ingredients as ingredient}
+                                <Col>
+                                    <Input style="color:#05386B" id="c1" type ="checkbox" label={ingredient} />
+                                </Col>
+                            {/each}
+                        </Row>
+                    </Container>
+                    <CardTitle style="color:#05386B">Steps</CardTitle>
+                    <ListGroup numbered>
+                    {#each recipes.steps as step}
+                        <ListGroupItem style="background:#EDF5E1; color:#05386B">{step}</ListGroupItem>
+                    {/each}
+                    </ListGroup>
+                </CardBody>
+            </div>
             {/if}
         {/await}
     </Card>
