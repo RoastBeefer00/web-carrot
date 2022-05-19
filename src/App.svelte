@@ -21,7 +21,6 @@
 	async function addItem(){
 		var l = $storeFE.length;	// get our current items list count
 		$storeFE[l] =  await getRecipes();
-		console.log($storeFE);
 	}
 
 	async function addMultipleRecipes(number) {
@@ -34,6 +33,23 @@
 		$storeFE = [];
 	}
 
+	function undoTask() {
+		var undoLength = $undo.length;
+		var recipesLength = $storeFE.length;
+
+		var i = $undo[undoLength - 1];
+		if (i.i == null) {
+			$storeFE[recipesLength] = i.r;
+		}
+		else {
+			$storeFE[i.i] = i.r;
+		}
+
+		$undo = $undo.filter(r => r.r !== i.r)
+
+		console.log($undo)
+	}
+
 	let value;
 	let filter;
 
@@ -44,7 +60,7 @@
 	} from 'sveltestrap';
 
 	import RecipeCard from '../public/card.svelte';
-	import { storeFE } from '../scripts/store.js'
+	import { storeFE, undo } from '../scripts/store.js'
 </script>
 
 <main>
@@ -69,6 +85,7 @@
 		/>
 		<Button style="display: inline-block; margin-left: 20px; background:#05386B; color:#EDF5E1" on:click={addMultipleRecipes(value)}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
 		<Button style="float:right; background:darkred; margin-right:20px" on:click={removeAllRecipes}>Remove All <Icon name="trash" /></Button>
+		<Button style="float:right; margin-right:20px" on:click={undoTask} disabled={$undo.length == 0}>{$undo.length == 0 ? "Undo" : $undo[$undo.length - 1].i == null ? "Undo Delete" : "Undo Replace"}</Button>
 	</div>
 	</div>
 
@@ -85,12 +102,14 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+		font-family: Georgia, 'Times New Roman', Times, serif
 	}
 
 	h1 {
 		color: #EDF5E1;
 		text-transform: uppercase;
 		text-align: center;
+		/* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif */
 		/* font-size: 4em; */
 		/* font-weight: 100; */
 		/* https://visme.co/blog/website-color-schemes/ */

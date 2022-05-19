@@ -5,16 +5,28 @@
 		return recipes;
 	}
 
-    function removeRecipe(title) {
-		$storeFE = $storeFE.filter(r => r.title !== title);
+    function removeRecipe(recipe) {
+        var l = $undo.length;
+        $undo[l] = {
+            "i": null,
+            "r": recipe
+        }
+        console.log($undo)
+		$storeFE = $storeFE.filter(r => r !== recipe);
 	}
 
     async function replaceRecipe(recipe) {
         for (let index = 0; index < $storeFE.length; index++) {
             if ($storeFE[index] == recipe) {
+                var l = $undo.length;
+                $undo[l] = {
+                    "i": index,
+                    "r": recipe
+                }
                 $storeFE[index] = await getRecipes();
             } 
         }
+        console.log($undo)
     }
 
     function toggle() {
@@ -40,7 +52,7 @@
         Icon
 	} from 'sveltestrap';
 
-    import { storeFE } from '../scripts/store.js'
+    import { storeFE, undo } from '../scripts/store.js'
     import { slide } from 'svelte/transition';
 </script>
 
@@ -53,7 +65,7 @@
                 <CardTitle style="color:#EDF5E1;">{recipes.title}</CardTitle>
                 <CardSubtitle style="color:#EDF5E1">{recipes.time}</CardSubtitle>
                 <Button style="background:#379683; color:#EDF5E1" on:click={toggle}><Icon name={visible ? "chevron-up" : "chevron-down"} /></Button>
-                <Button style="float:right; margin-left:20px; background:#379683; color:#EDF5E1" on:click={removeRecipe(recipes.title)}><Icon name="trash" /></Button>
+                <Button style="float:right; margin-left:20px; background:#379683; color:#EDF5E1" on:click={removeRecipe(recipes)}><Icon name="trash" /></Button>
                 <Button style="float:right; margin-left:100px; background:#379683; color:#EDF5E1" on:click={replaceRecipe(recipes)}><Icon name="arrow-repeat" /></Button>
             </CardHeader>
             {#if visible}
