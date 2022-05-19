@@ -86,7 +86,7 @@
 		/>
 		<Button style="display: inline-block; margin-left: 20px; background:#05386B; color:#EDF5E1" on:click={addMultipleRecipes(value)}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
 		<Button style="float:right; background:darkred; margin-right:20px" on:click={removeAllRecipes}>Remove All <Icon name="trash" /></Button>
-		<Button style="float:right; margin-right:20px" on:click={undoTask} disabled={$undo.length == 0}>{$undo.length == 0 ? "Undo" : $undo[$undo.length - 1].i == null ? "Undo Delete" : "Undo Replace"}</Button>
+		<Button style="float:right; margin-right:20px; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
 	</div>
 	</div>
 
@@ -100,9 +100,9 @@
 <style>
 	main {
 		text-align: left;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+		/* padding: 1em; */
+		/* max-width: 240px; */
+		/* margin: 0 auto; */
 		font-family: Georgia, 'Times New Roman', Times, serif
 	}
 
