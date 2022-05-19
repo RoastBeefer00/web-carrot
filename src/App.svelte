@@ -103,6 +103,7 @@
 		/* padding: 1em; */
 		/* max-width: 240px; */
 		/* margin: 0 auto; */
+		background-color: #EDF5E1;
 		font-family: Georgia, 'Times New Roman', Times, serif
 	}
 
