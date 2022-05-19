@@ -6,11 +6,17 @@
 	}
 
     function removeRecipe(recipe) {
-        var l = $undo.length;
-        $undo[l] = {
-            "i": null,
-            "r": recipe
+        for (let index = 0; index < $storeFE.length; index++) {
+            if ($storeFE[index] == recipe) {
+                var l = $undo.length;
+                $undo[l] = {
+                    "task": "Delete",
+                    "index": index,
+                    "recipe": recipe
+                }
+            } 
         }
+        
         console.log($undo)
 		$storeFE = $storeFE.filter(r => r !== recipe);
 	}
@@ -20,8 +26,9 @@
             if ($storeFE[index] == recipe) {
                 var l = $undo.length;
                 $undo[l] = {
-                    "i": index,
-                    "r": recipe
+                    "task": "Replace",
+                    "index": index,
+                    "recipe": recipe
                 }
                 $storeFE[index] = await getRecipes();
             } 

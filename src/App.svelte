@@ -33,21 +33,22 @@
 		$storeFE = [];
 	}
 
-	function undoTask() {
+	async function undoTask() {
 		var undoLength = $undo.length;
 		var recipesLength = $storeFE.length;
-
-		var i = $undo[undoLength - 1];
-		if (i.i == null) {
-			$storeFE[recipesLength] = i.r;
+		var item = $undo[undoLength - 1];
+		if (item.task == "Delete") {
+			for (let index = ($storeFE.length - 1); index >= item.index; index--) {
+				$storeFE[index + 1] = await $storeFE[index];
+				console.log($storeFE);
+			}
+			$storeFE[item.index] = item.recipe;
 		}
 		else {
-			$storeFE[i.i] = i.r;
+			$storeFE[item.index] = item.recipe;
 		}
 
-		$undo = $undo.filter(r => r.r !== i.r)
-
-		console.log($undo)
+		$undo = $undo.filter(r => r.recipe !== item.recipe);
 	}
 
 	let value;
