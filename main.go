@@ -4,6 +4,7 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -12,13 +13,6 @@ import (
 	"strings"
 	"time"
 )
-
-//go:embed public
-var embeddedFiles embed.FS
-
-// func getNames(w http.ResponseWriter, r *http.Request){
-
-// }
 
 type Recipes struct {
 	Recipes []Recipe `json:"recipes"`
@@ -111,7 +105,17 @@ func getFilteredRecipes(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(ret)
 }
 
+//go:embed public
+var embeddedFiles embed.FS
+
 func main() {
+	fsys, err := fs.Sub(embeddedFiles, "public")
+	if err != nil {
+		panic(err)
+	}
+
+	http.Handle("/", http.FileServer(http.FS(fsys)))
+
 	http.HandleFunc("/api/getrandom", corsHandler(getRandomRecipe))
 	http.HandleFunc("/api/getall", corsHandler(getAllRecipes))
 	http.HandleFunc("/api/filter/", corsHandler(getFilteredRecipes))
