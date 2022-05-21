@@ -62,10 +62,12 @@
 
 	import RecipeCard from '../public/card.svelte';
 	import { storeFE, undo } from '../scripts/store.js'
+	import { fly } from 'svelte/transition'
 </script>
 
 <main>
 	<div style="background:#379683">
+	<img class="carrot" src="carrot.png" alt="carrot"/>
 	<h1>We need to cook.</h1>
 	<div style="white-space: nowrap;">
 		<Input
@@ -92,8 +94,13 @@
 
 	<div>
 		{#each $storeFE as recipe}
-			<RecipeCard recipes={recipe}/>
+			<div transition:fly="{{x:-300}}">
+				<RecipeCard recipes={recipe}/>
+			</div>
 		{/each}
+	</div>
+	<div>
+		<img class="gif" src="homer.gif" alt="Gotta do the cooking by the book!"/>
 	</div>
 </main>
 
@@ -121,5 +128,18 @@
 		main {
 			max-width: none;
 		}
+	}
+
+
+	.carrot {
+		display:inline-block;
+		height:30px;
+		width:30px;
+	}
+	.gif {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
 	}
 </style>
