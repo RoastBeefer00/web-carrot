@@ -1,6 +1,6 @@
 <script>
 	async function getRecipes() {
-		let response = await fetch("/api/GetRandom");
+		let response = await fetch("https://web-carrot.vercel.app/api/GetRandom");
 		let recipes = await response.json();
 		return recipes;
 	}
