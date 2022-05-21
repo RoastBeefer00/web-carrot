@@ -67,7 +67,6 @@
 
 <main>
 	<div style="background:#379683">
-	<img class="carrot" src="carrot.png" alt="carrot"/>
 	<h1>We need to cook.</h1>
 	<div style="white-space: nowrap;">
 		<Input
