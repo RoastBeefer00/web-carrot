@@ -1,12 +1,12 @@
 <script>
 	async function getRecipes() {
-		let response = await fetch("http://localhost:8050/api/getrandom");
+		let response = await fetch("https://mealplanning.azurewebsites.net/api/getrandom");
 		let recipes = await response.json();
 		return recipes;
 	}
 
 	async function getFilteredRecipes(filter) {
-		let request = "http://localhost:8050/api/filter/" + filter;
+		let request = "https://mealplanning.azurewebsites.net/api/filter/" + filter;
 		console.log(request);
 		let response = await fetch(request);
 		let recipes = await response.json();
@@ -73,21 +73,21 @@
 			type="text"
 			placeholder="Search for something..."
 			bind:value={filter}
-			style="width:25%; display: inline-block; margin-left:20px; background:#EDF5E1"
+			style="width:25%; display: inline-block; margin-left:2px; background:#EDF5E1"
 			on:keypress
 		/>
-		<Button style="display: inline-block; margin-left:20px; background:#05386B; color:#EDF5E1" on:click={getFilteredRecipes(filter)}><Icon name="search" /></Button>
-		<p style="display: inline-block; margin-left:20px; color:white">or</p>
+		<Button style="display: inline-block; margin-left:2px; background:#05386B; color:#EDF5E1" on:click={getFilteredRecipes(filter)}><Icon name="search" /></Button>
+		<p style="display: inline-block; margin-left:2px; color:white">or</p>
 		<Input
 			type="number"
 			min={1}
 			bind:value
-			style="width:25%; display: inline-block; margin-left:20px; background:#EDF5E1"
+			style="width:25%; display: inline-block; margin-left:2px; background:#EDF5E1"
 			placeholder="Add # of random recipes..."
 		/>
-		<Button style="display: inline-block; margin-left: 20px; background:#05386B; color:#EDF5E1" on:click={addMultipleRecipes(value)}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
-		<Button style="float:right; background:darkred; margin-right:20px" on:click={removeAllRecipes}>Remove All <Icon name="trash" /></Button>
-		<Button style="float:right; margin-right:20px; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
+		<Button style="display: inline-block; margin-left: 2px; background:#05386B; color:#EDF5E1" on:click={addMultipleRecipes(value)}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
+		<Button style="float:right; background:darkred; margin-right:2px" on:click={removeAllRecipes}>Remove All <Icon name="trash" /></Button>
+		<Button style="float:right; margin-right:2px; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
 	</div>
 	</div>
 

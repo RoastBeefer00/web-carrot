@@ -108,6 +108,7 @@ func getFilteredRecipes(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
 	http.HandleFunc("/api/getrandom", corsHandler(getRandomRecipe))
 	http.HandleFunc("/api/getall", corsHandler(getAllRecipes))
 	http.HandleFunc("/api/filter/", corsHandler(getFilteredRecipes))

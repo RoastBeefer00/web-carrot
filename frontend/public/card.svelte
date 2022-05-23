@@ -1,6 +1,6 @@
 <script>
     async function getRecipes() {
-		let response = await fetch("http://localhost:8050/api/getrandom");
+		let response = await fetch("https://mealplanning.azurewebsites.net/api/getrandom");
 		let recipes = await response.json();
 		return recipes;
 	}
