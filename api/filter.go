@@ -8,17 +8,6 @@ import (
 	"strings"
 )
 
-type Recipes struct {
-	Recipes []Recipe `json:"recipes"`
-}
-
-type Recipe struct {
-	Title       string   `json:"title"`
-	Time        string   `json:"time"`
-	Ingredients []string `json:"ingredients"`
-	Steps       []string `json:"steps"`
-}
-
 func Filter(w http.ResponseWriter, r *http.Request) {
 
 	key := strings.TrimPrefix(r.URL.Path, "/api/filter/")
