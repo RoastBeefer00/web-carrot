@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -19,16 +20,8 @@ type Recipe struct {
 }
 
 func Filter(w http.ResponseWriter, r *http.Request) {
-	// keys, ok := r.URL.Query()["key"]
-	key := strings.TrimPrefix(r.URL.Path, "/api/filter/")
-	// if !ok || len(keys[0]) < 1 {
-	// 	log.Println("Url Param 'key' is missing")
-	// 	return
-	// }
 
-	// Query()["key"] will return an array of items,
-	// we only want the single item.
-	//key := keys[0]
+	key := strings.TrimPrefix(r.URL.Path, "/api/filter/")
 
 	log.Println("Url Param 'key' is: " + key)
 
@@ -5735,5 +5728,6 @@ func Filter(w http.ResponseWriter, r *http.Request) {
 			ret.Recipes = append(ret.Recipes, recipe)
 		}
 	}
-	json.NewEncoder(w).Encode(ret)
+	fmt.Fprintf(w, r.URL.Path)
+	//json.NewEncoder(w).Encode(ret)
 }
