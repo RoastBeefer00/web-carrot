@@ -19,7 +19,7 @@ type Recipe struct {
 	Steps       []string `json:"steps"`
 }
 
-func getJson() Recipes {
+func Random(w http.ResponseWriter, r *http.Request) {
 	var recipes Recipes
 
 	s := string(`{
@@ -5716,12 +5716,6 @@ func getJson() Recipes {
 	}`)
 
 	json.Unmarshal([]byte(s), &recipes)
-
-	return recipes
-}
-
-func Random(w http.ResponseWriter, r *http.Request) {
-	recipes := getJson()
 
 	rand.Seed(time.Now().UnixNano())
 	i := rand.Intn(len(recipes.Recipes))
