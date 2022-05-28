@@ -2,17 +2,29 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 	"strings"
 )
 
+type Recipes struct {
+	Recipes []Recipe `json:"recipes"`
+}
+
+type Recipe struct {
+	Title       string   `json:"title"`
+	Time        string   `json:"time"`
+	Ingredients []string `json:"ingredients"`
+	Steps       []string `json:"steps"`
+}
+
 func Filter(w http.ResponseWriter, r *http.Request) {
 
-	key := strings.TrimPrefix(r.URL.Path, "/api/filter/")
+	// key := strings.TrimPrefix(r.URL.Path, "/api/filter")
 
-	log.Println("Url Param 'key' is: " + key)
+	// log.Println("Url Param 'key' is: " + key)
+
+	query := r.URL.Query()
+	key := query.Get("filter")
 
 	var recipes Recipes
 
@@ -5717,6 +5729,11 @@ func Filter(w http.ResponseWriter, r *http.Request) {
 			ret.Recipes = append(ret.Recipes, recipe)
 		}
 	}
-	fmt.Fprintf(w, r.URL.Query().Get("filter"))
-	//json.NewEncoder(w).Encode(ret)
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(ret)
 }

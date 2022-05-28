@@ -6,7 +6,7 @@
 	}
 
 	async function getFilteredRecipes(filter) {
-		let request = "https://web-carrot.vercel.app/api/filter/" + filter;
+		let request = "https://web-carrot.vercel.app/api/filter/search?filter=" + filter;
 		console.log(request);
 		let response = await fetch(request);
 		let recipes = await response.json();
