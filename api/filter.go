@@ -5717,6 +5717,6 @@ func Filter(w http.ResponseWriter, r *http.Request) {
 			ret.Recipes = append(ret.Recipes, recipe)
 		}
 	}
-	fmt.Fprintf(w, r.URL.Path)
+	fmt.Fprintf(w, r.URL.Query().Get("filter"))
 	//json.NewEncoder(w).Encode(ret)
 }
