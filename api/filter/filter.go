@@ -20,7 +20,7 @@ type Recipe struct {
 
 func Filter(w http.ResponseWriter, r *http.Request) {
 	// keys, ok := r.URL.Query()["key"]
-	key := strings.TrimPrefix(r.URL.Path, "https://web-carrot.vercel.app/api/filter/")
+	key := strings.TrimPrefix(r.URL.Path, "/api/filter/")
 	// if !ok || len(keys[0]) < 1 {
 	// 	log.Println("Url Param 'key' is missing")
 	// 	return
