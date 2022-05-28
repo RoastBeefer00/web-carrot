@@ -39,7 +39,7 @@ func getJson() Recipes {
 	return recipes
 }
 
-func GetRandom(w http.ResponseWriter, r *http.Request) {
+func Handler(w http.ResponseWriter, r *http.Request) {
 	recipes := getJson()
 
 	rand.Seed(time.Now().UnixNano())
