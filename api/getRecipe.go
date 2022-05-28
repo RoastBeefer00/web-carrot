@@ -20,17 +20,6 @@ type Recipe struct {
 }
 
 func getJson() Recipes {
-
-	// jsonFile, err := os.Open("data.json")
-
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	// defer jsonFile.Close()
-
-	// byteValue, _ := ioutil.ReadAll(jsonFile)
-
 	var recipes Recipes
 
 	s := string(`{
@@ -5731,7 +5720,7 @@ func getJson() Recipes {
 	return recipes
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
+func Random(w http.ResponseWriter, r *http.Request) {
 	recipes := getJson()
 
 	rand.Seed(time.Now().UnixNano())
