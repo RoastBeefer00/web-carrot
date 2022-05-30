@@ -80,7 +80,7 @@
                 <CardBody style="background:#8EE4AF">
                     <CardTitle style="color:#05386B">Ingredients</CardTitle>
                     <Container>
-                        <Row cols={4}>
+                        <Row cols={3}>
                             {#each recipes.ingredients as ingredient}
                                 <Col>
                                     <Input style="color:#05386B" id="c1" type ="checkbox" label={ingredient} />
