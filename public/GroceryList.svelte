@@ -31,7 +31,7 @@
 </script>
 
 <div>
-  <Button style="background:#05386B; color:#EDF5E1" on:click={toggle}>Grocery List</Button>
+  <Button style="background:#05386B; color:#EDF5E1" on:click={toggle} disabled={$storeFE.length == 0}>Grocery List</Button>
   <Modal isOpen={open} {toggle}>
     <ModalHeader {toggle} style="background:#379683; color:#EDF5E1">Grocery List</ModalHeader>
     <ModalBody style="background:#EDF5E1">
