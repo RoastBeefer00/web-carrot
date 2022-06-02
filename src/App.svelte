@@ -65,11 +65,12 @@
 
 	import RecipeCard from '../public/card.svelte';
 	import { storeFE, undo } from '../scripts/store.js'
+	import GroceryList  from '../public/GroceryList.svelte';
 	import { fly } from 'svelte/transition'
 </script>
 
 <main>
-	<div>
+	<div style="height:100%">
 		<div style="background:#379683; position:sticky; width:100%; top:0; z-index:1; padding-bottom:10px;">
 			<h1>We need to cook.</h1>
 			<Container>
@@ -105,8 +106,11 @@
 					</Row>
 				</div>
 			</Container>
+			<div style="text-align:center;">
+				<GroceryList />
+			</div>	
 		</div>
-		<div style="z-index:99">
+		<div style="z-index:99 height:100%; flex-grow:1">
 			{#each $storeFE as recipe}
 				<div transition:fly="{{x:-300}}">
 					<RecipeCard recipes={recipe}/>
