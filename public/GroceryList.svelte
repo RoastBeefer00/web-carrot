@@ -36,7 +36,7 @@
     <ModalHeader {toggle} style="background:#379683; color:#EDF5E1">Grocery List</ModalHeader>
     <ModalBody style="background:#EDF5E1">
       <Container>
-        <Row cols={2} style="max-height:calc(100vh - 225px); overflow:scroll">
+        <Row cols={2} style="max-height:calc(100vh - 300px); overflow:scroll">
           <div >
           {#each $storeFE as recipe}
             {#each recipe.ingredients.sort() as ingredient}
