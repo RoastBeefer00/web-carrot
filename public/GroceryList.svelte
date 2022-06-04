@@ -37,7 +37,7 @@
     var json;
     $storeFE.forEach(recipe => {
       recipe.ingredients.forEach(ingredient => {
-      value = ingredient.match("^\\d*[^a-zA-Z \\*]?\\d*|¼|¾|½");
+      value = ingredient.match("^\\d*[^a-zA-Z \\*]?\\d*|¼|¾|½|⅓");
       //console.log(value);
 
       rest = ingredient.match("\\*?[a-zA-Z].*")
@@ -54,12 +54,13 @@
       for (let j = i+1; j < array.length; j++) {
         if (array[i].ingredient.includes(array[j].ingredient) || array[j].ingredient.includes(array[i].ingredient)) {
           if (array[i].quantity != "") {
-            console.log(parseInt(array[i].quantity) + parseInt(array[j].quantity));
+            console.log(parseFloat(array[i].quantity) + parseFloat(array[j].quantity));
           }
           console.log(array[i].ingredient);
         }
       } 
     }
+    console.log(parseFloat(".5") + 1);
   }
 
   function printIngredient(ingredient) {
