@@ -1,18 +1,18 @@
 <script>
 	async function getRecipes() {
-		let response = await fetch("https://web-carrot.vercel.app/api/getRecipe");
+		let response = await fetch("https://r7qi88.deta.dev/random");
 		let recipes = await response.json();
 		return recipes;
 	}
 
 	async function getFilteredRecipes(filter) {
-		let request = "https://web-carrot.vercel.app/api/filter/search?filter=" + filter;
+		let request = "https://r7qi88.deta.dev/recipes?filter=" + filter;
 		console.log(request);
 		let response = await fetch(request);
 		let recipes = await response.json();
 
 		var l = $storeFE.length;
-		 recipes.recipes.forEach(element => {
+		 recipes.forEach(element => {
 			$storeFE[l] = element;
 			l ++;
 		});	
