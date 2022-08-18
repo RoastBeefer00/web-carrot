@@ -1,8 +1,12 @@
 <script>
-	async function getRecipes() {
-		let response = await fetch("https://r7qi88.deta.dev/random");
+	async function getRecipes(num) {
+		let response = await fetch("https://r7qi88.deta.dev/random?num="+num);
 		let recipes = await response.json();
-		return recipes;
+		var l = $storeFE.length;
+		recipes.forEach(element => {
+			$storeFE[l] = element;
+			l ++;
+		});	
 	}
 
 	async function getFilteredRecipes(filter) {
@@ -12,21 +16,10 @@
 		let recipes = await response.json();
 
 		var l = $storeFE.length;
-		 recipes.forEach(element => {
+		recipes.forEach(element => {
 			$storeFE[l] = element;
 			l ++;
 		});	
-	}
-
-	async function addItem(){
-		var l = $storeFE.length;	// get our current items list count
-		$storeFE[l] =  await getRecipes();
-	}
-
-	async function addMultipleRecipes(number) {
-		for (let index = 0; index < number; index++) {
-			await addItem();
-		}
 	}
 
 	function removeAllRecipes() {
@@ -98,7 +91,7 @@
 								style="width:40%; display: inline-block; margin-left:5px; background:#EDF5E1"
 								placeholder="#"
 							/>
-							<Button style="display: inline-block; margin-left: 5px; background:#05386B; color:#EDF5E1" on:click={addMultipleRecipes(value)} disabled={value == ""}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
+							<Button style="display: inline-block; margin-left: 5px; background:#05386B; color:#EDF5E1" on:click={getRecipes(value)} disabled={value == ""}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
 						</Col>
 						<Col>
 							<Button style="float:right; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
