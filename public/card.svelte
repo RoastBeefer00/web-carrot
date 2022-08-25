@@ -1,10 +1,4 @@
 <script>
-    async function getRecipes() {
-		let response = await fetch("https://r7qi88.deta.dev/random");
-		let recipes = await response.json();
-		return recipes;
-	}
-
     function removeRecipe(recipe) {
         for (let index = 0; index < $storeFE.length; index++) {
             if ($storeFE[index] == recipe) {
@@ -30,7 +24,10 @@
                     "index": index,
                     "recipe": recipe
                 }
-                $storeFE[index] = await getRecipes();
+                let response = await fetch("https://r7qi88.deta.dev/random");
+		        let recipes = await response.json();
+                console.log(recipes[0]);
+                $storeFE[index] = recipes[0];
             } 
         }
         console.log($undo)
