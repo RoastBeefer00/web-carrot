@@ -1,32 +1,25 @@
 <script>
-	async function getRecipes() {
-		let response = await fetch("http://localhost:8050/api/getrandom");
+	async function getRecipes(num) {
+		let response = await fetch("https://r7qi88.deta.dev/random?num="+num);
 		let recipes = await response.json();
-		return recipes;
-	}
-
-	async function getFilteredRecipes(filter) {
-		let request = "http://localhost:8050/api/filter/" + filter;
-		console.log(request);
-		let response = await fetch(request);
-		let recipes = await response.json();
-
 		var l = $storeFE.length;
-		 recipes.recipes.forEach(element => {
+		recipes.forEach(element => {
 			$storeFE[l] = element;
 			l ++;
 		});	
 	}
 
-	async function addItem(){
-		var l = $storeFE.length;	// get our current items list count
-		$storeFE[l] =  await getRecipes();
-	}
+	async function getFilteredRecipes(filter) {
+		let request = "https://r7qi88.deta.dev/recipes?filter=" + filter;
+		console.log(request);
+		let response = await fetch(request);
+		let recipes = await response.json();
 
-	async function addMultipleRecipes(number) {
-		for (let index = 0; index < number; index++) {
-			await addItem();
-		}
+		var l = $storeFE.length;
+		recipes.forEach(element => {
+			$storeFE[l] = element;
+			l ++;
+		});	
 	}
 
 	function removeAllRecipes() {
@@ -57,49 +50,69 @@
 	import { 
 		Button,
 		Input,
-		Icon
+		Icon,
+		Col,
+		Container,
+		Row
 	} from 'sveltestrap';
 
 	import RecipeCard from '../public/card.svelte';
 	import { storeFE, undo } from '../scripts/store.js'
+	import GroceryList  from '../public/GroceryList.svelte';
 	import { fly } from 'svelte/transition'
 </script>
 
 <main>
-	<div style="background:#379683">
-	<h1>We need to cook.</h1>
-	<div style="white-space: nowrap;">
-		<Input
-			type="text"
-			placeholder="Search for something..."
-			bind:value={filter}
-			style="width:25%; display: inline-block; margin-left:20px; background:#EDF5E1"
-			on:keypress
-		/>
-		<Button style="display: inline-block; margin-left:20px; background:#05386B; color:#EDF5E1" on:click={getFilteredRecipes(filter)}><Icon name="search" /></Button>
-		<p style="display: inline-block; margin-left:20px; color:white">or</p>
-		<Input
-			type="number"
-			min={1}
-			bind:value
-			style="width:25%; display: inline-block; margin-left:20px; background:#EDF5E1"
-			placeholder="Add # of random recipes..."
-		/>
-		<Button style="display: inline-block; margin-left: 20px; background:#05386B; color:#EDF5E1" on:click={addMultipleRecipes(value)}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
-		<Button style="float:right; background:darkred; margin-right:20px" on:click={removeAllRecipes}>Remove All <Icon name="trash" /></Button>
-		<Button style="float:right; margin-right:20px; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
-	</div>
-	</div>
-
-	<div>
-		{#each $storeFE as recipe}
-			<div transition:fly="{{x:-300}}">
-				<RecipeCard recipes={recipe}/>
-			</div>
-		{/each}
-	</div>
-	<div>
-		<img class="gif" src="homer.gif" alt="Gotta do the cooking by the book!"/>
+	<div style="height:100%">
+		<div style="background:#379683; position:sticky; width:100%; top:0; z-index:1; padding-bottom:10px;">
+			<h1>We need to cook.</h1>
+			<Container>
+				<div style="white-space: nowrap;">
+					<Row>
+						<Col>
+							<Input
+								type="text"
+								placeholder="Search..."
+								bind:value={filter}
+								style="width:70%; display:inline-block; margin-left:5px; background:#EDF5E1"
+							/>
+							<Button style="display: inline-block; margin-left:5px; background:#05386B; color:#EDF5E1" on:click={getFilteredRecipes(filter)} disabled={filter == ""}><Icon name="search" /></Button>
+						</Col>
+						<Col>
+							<Button style="float:right; background:darkred" on:click={removeAllRecipes} disabled={$storeFE.length == 0}>Remove All <Icon name="trash" /></Button>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Input
+								type="number"
+								min={1}
+								bind:value
+								style="width:40%; display: inline-block; margin-left:5px; background:#EDF5E1"
+								placeholder="#"
+							/>
+							<Button style="display: inline-block; margin-left: 5px; background:#05386B; color:#EDF5E1" on:click={getRecipes(value)} disabled={value == ""}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
+						</Col>
+						<Col>
+							<Button style="float:right; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
+						</Col>
+					</Row>
+				</div>
+			</Container>
+			<div style="text-align:center;">
+				<GroceryList />
+			</div>	
+		</div>
+		<div style="z-index:99 height:100%; flex-grow:1">
+			{#each $storeFE as recipe}
+				<div transition:fly="{{x:-300}}">
+					<RecipeCard recipes={recipe}/>
+				</div>
+			{/each}
+		</div>
+		<div>
+			<img class="gif" src="homer.gif" alt="Gotta do the cooking by the book!"/>
+		</div>
 	</div>
 </main>
 
@@ -129,12 +142,6 @@
 		}
 	}
 
-
-	.carrot {
-		display:inline-block;
-		height:30px;
-		width:30px;
-	}
 	.gif {
 		display: block;
 		margin-left: auto;

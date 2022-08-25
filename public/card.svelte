@@ -1,6 +1,6 @@
 <script>
     async function getRecipes() {
-		let response = await fetch("http://localhost:8050/api/getrandom");
+		let response = await fetch("https://r7qi88.deta.dev/random");
 		let recipes = await response.json();
 		return recipes;
 	}
@@ -80,7 +80,7 @@
                 <CardBody style="background:#8EE4AF">
                     <CardTitle style="color:#05386B">Ingredients</CardTitle>
                     <Container>
-                        <Row cols={4}>
+                        <Row cols={3}>
                             {#each recipes.ingredients as ingredient}
                                 <Col>
                                     <Input style="color:#05386B" id="c1" type ="checkbox" label={ingredient} />
