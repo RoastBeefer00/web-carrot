@@ -40,8 +40,7 @@
     export let recipes;
     let visible = false;
 
-	import { 
-		Button,
+	import {
 		Card,
 		CardBody,
 		CardHeader,
@@ -65,13 +64,13 @@
         {#await recipes}
             <p>Loading...</p>
         {:then recipes}
-            <CardHeader style="background:#05386B">
-                <CardTitle style="color:#EDF5E1;">{recipes.title}</CardTitle>
-                <CardSubtitle style="color:#EDF5E1">{recipes.time}</CardSubtitle>
-                <Button style="background:#379683; color:#EDF5E1" on:click={toggle}><Icon name={visible ? "chevron-up" : "chevron-down"} /></Button>
-                <Button style="float:right; margin-left:20px; background:#379683; color:#EDF5E1" on:click={removeRecipe(recipes)}><Icon name="trash" /></Button>
-                <Button style="float:right; margin-left:100px; background:#379683; color:#EDF5E1" on:click={replaceRecipe(recipes)}><Icon name="arrow-repeat" /></Button>
-            </CardHeader>
+            <div class="header">
+                <h3>{recipes.title}</h3>
+                <p class="time">{recipes.time}</p>
+                <button class="button button_normal" on:click={toggle}><Icon name={visible ? "chevron-up" : "chevron-down"} /></button>
+                <button class="button button_normal button_right" on:click={removeRecipe(recipes)}><Icon name="trash" /></button>
+                <button class="button button_normal button_right" on:click={replaceRecipe(recipes)}><Icon name="arrow-repeat" /></button>
+            </div>
             {#if visible}
             <div transition:slide>
                 <CardBody style="background:#8EE4AF">
@@ -97,3 +96,25 @@
         {/await}
     </Card>
 </div>
+
+<style>
+    .header {
+        background: #05386B;
+    }
+    
+    h3 {
+        color: #EDF5E1;
+        font-size: 16pt;
+        margin: 5px;
+    }
+
+    .time {
+        color: #EDF5E1;
+        margin: 5px;
+    }
+
+    .button_normal {
+        background: #379683; 
+        color: #EDF5E1;
+    }
+</style>

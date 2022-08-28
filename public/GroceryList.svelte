@@ -1,6 +1,5 @@
 <script>
   import { storeFE, groceryList } from '../scripts/store.js'
-  import { derived } from 'svelte/store';
 
   import {
     Button,
@@ -38,7 +37,7 @@
     var json;
     $storeFE.forEach(recipe => {
       recipe.ingredients.forEach(ingredient => {
-      value = ingredient.match("^\\d*[^a-zA-Z \\*]?\\d*|¼|¾|½|⅓");
+      value = ingredient.match("^\\d*[^a-zA-Z \\*]?\\d*");
       console.log(value);
       measurement = ingredient.match("tbsps?|tsps?|cups?|cans?|packages?|packets?|ozs?|pounds?");
       console.log(measurement);
@@ -95,7 +94,7 @@
 </script>
 
 <div>
-  <Button style="background:#05386B; color:#EDF5E1" on:click={toggle} disabled={$storeFE.length == 0}>Grocery List</Button>
+  <button class="button" on:click={toggle} disabled={$storeFE.length == 0}>Grocery List</button>
   <Modal isOpen={open} {toggle}>
     <ModalHeader {toggle} style="background:#379683; color:#EDF5E1">Grocery List</ModalHeader>
     <ModalBody style="background:#EDF5E1">
@@ -113,3 +112,12 @@
     </ModalFooter>
   </Modal>
 </div>
+
+<style>
+	.button {
+		background:#05386B; 
+		color:#EDF5E1;
+		border-radius: 8px;
+	}
+
+</style>

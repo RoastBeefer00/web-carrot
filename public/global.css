@@ -44,10 +44,24 @@ input:disabled {
 	color: #ccc;
 }
 
-button {
+/* button {
 	color: #333;
 	background-color: #f4f4f4;
 	outline: none;
+} */
+
+.button {
+	display: inline-block;
+	border-radius: 8px;
+	border: none;
+	padding: 8px 18px;
+	margin: 2px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.button_right {
+	float: right;
 }
 
 button:disabled {

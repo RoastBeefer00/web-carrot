@@ -64,37 +64,59 @@
 
 <main>
 	<div style="height:100%">
-		<div style="background:#379683; position:sticky; width:100%; top:0; z-index:1; padding-bottom:10px;">
+		<div class="header">
 			<h1>We need to cook.</h1>
 			<Container>
 				<div style="white-space: nowrap;">
 					<Row>
 						<Col>
-							<Input
+							<input
 								type="text"
 								placeholder="Search..."
 								bind:value={filter}
-								style="width:70%; display:inline-block; margin-left:5px; background:#EDF5E1"
+								class="form search_bar"
 							/>
-							<Button style="display: inline-block; margin-left:5px; background:#05386B; color:#EDF5E1" on:click={getFilteredRecipes(filter)} disabled={filter == ""}><Icon name="search" /></Button>
+							<button 
+								class="button button_normal" 
+								on:click={getFilteredRecipes(filter)} 
+								disabled={filter == ""}>
+								<Icon name="search" />
+							</button>
 						</Col>
 						<Col>
-							<Button style="float:right; background:darkred" on:click={removeAllRecipes} disabled={$storeFE.length == 0}>Remove All <Icon name="trash" /></Button>
+							<button
+								class="button button_delete button_right"
+								on:click={removeAllRecipes} 
+								disabled={$storeFE.length == 0}>
+								Remove All <Icon name="trash" />
+						</button>
 						</Col>
 					</Row>
 					<Row>
 						<Col>
-							<Input
+							<input
 								type="number"
 								min={1}
 								bind:value
-								style="width:40%; display: inline-block; margin-left:5px; background:#EDF5E1"
+								class="form add_recipes_form"
 								placeholder="#"
 							/>
-							<Button style="display: inline-block; margin-left: 5px; background:#05386B; color:#EDF5E1" on:click={getRecipes(value)} disabled={value == ""}><Icon name="plus-circle" />{value !== 1 && value !== null ? " Add " + value +" recipes!" : " Add recipe!"}</Button>
+							<button 
+								class="button button_normal" 
+								on:click={getRecipes(value)} 
+								disabled={value == ""}>
+								<Icon name="plus-circle" />
+								{value !== 1 && value !== undefined ? " Add " + value +" recipes!" : " Add recipe!"}
+							</button>
 						</Col>
 						<Col>
-							<Button style="float:right; background:#EDF5E1; border:#05386B; color:#05386B" on:click={undoTask} disabled={$undo.length == 0}><Icon name="arrow-counterclockwise" />{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}</Button>
+							<button 
+								class="button button_normal button_right" 
+								on:click={undoTask} 
+								disabled={$undo.length == 0}>
+								<Icon name="arrow-counterclockwise" />
+								{$undo.length == 0 ? " Undo" : " Undo " + $undo[$undo.length - 1].task}
+							</button>
 						</Col>
 					</Row>
 				</div>
@@ -103,7 +125,7 @@
 				<GroceryList />
 			</div>	
 		</div>
-		<div style="z-index:99 height:100%; flex-grow:1">
+		<div class="recipe_store">
 			{#each $storeFE as recipe}
 				<div transition:fly="{{x:-300}}">
 					<RecipeCard recipes={recipe}/>
@@ -111,7 +133,11 @@
 			{/each}
 		</div>
 		<div>
-			<img class="gif" src="homer.gif" alt="Gotta do the cooking by the book!"/>
+			<img 
+				class="gif" 
+				src="homer.gif" 
+				alt="Gotta do the cooking by the book!"
+			/>
 		</div>
 	</div>
 </main>
@@ -119,27 +145,71 @@
 <style>
 	main {
 		text-align: left;
-		/* padding: 1em; */
-		/* max-width: 240px; */
-		/* margin: 0 auto; */
 		background-color: #EDF5E1;
-		font-family: Georgia, 'Times New Roman', Times, serif
+		font-family: Georgia, 'Times New Roman', Times, serif;
 	}
+
+	/* HEADER */
 
 	h1 {
 		color: #EDF5E1;
 		text-transform: uppercase;
 		text-align: center;
-		/* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif */
-		/* font-size: 4em; */
-		/* font-weight: 100; */
-		/* https://visme.co/blog/website-color-schemes/ */
+	}
+
+	.header {
+		background: #379683; 
+		position: sticky; 
+		width: 100%; 
+		top: 0; 
+		z-index: 1; 
+		padding-bottom: 10px;
 	}
 
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
 		}
+	}
+
+	/* BUTTONS */
+
+	.button_normal {
+		background-color: #05386B; 
+		color: #EDF5E1;
+		
+	}
+
+	.button_delete {
+		background-color: darkred;
+		color: #EDF5E1;
+	}
+
+
+	/* FORMS */
+
+	.form {
+		display: inline-block; 
+		margin: 2px; 
+		background: #EDF5E1;
+		border-radius: 8px;
+	}
+
+	.add_recipes_form {
+		width: 40%; 
+		
+	}
+
+	.search_bar {
+		width: 70%; 
+	}
+
+	/* BOTTOM HALF */
+
+	.recipe_store {
+		z-index: 99;
+		height: 100%; 
+		flex-grow: 1;
 	}
 
 	.gif {
