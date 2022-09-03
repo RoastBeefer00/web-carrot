@@ -104,7 +104,7 @@
 							<button 
 								class="button button_normal" 
 								on:click={getRecipes(value)} 
-								disabled={value == ""}>
+								disabled={value == undefined}>
 								<Icon name="plus-circle" />
 								{value !== 1 && value !== undefined ? " Add " + value +" recipes!" : " Add recipe!"}
 							</button>
@@ -183,6 +183,10 @@
 	.button_delete {
 		background-color: darkred;
 		color: #EDF5E1;
+	}
+
+	.button:disabled {
+		background-color: darkslategrey;
 	}
 
 
