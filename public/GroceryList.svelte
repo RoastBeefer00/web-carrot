@@ -128,6 +128,7 @@
     margin-left: 0;
     display: inline-block;
     vertical-align: middle;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     /* float: left; */
   }
 
@@ -145,10 +146,12 @@
   .modal_body {
     background:#EDF5E1;
     color: #05386B;
+    padding: 10px;
   }
 
   h1 {
     margin: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
   }
 
 </style>

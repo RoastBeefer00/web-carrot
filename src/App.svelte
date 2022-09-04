@@ -177,7 +177,6 @@
 	.button_normal {
 		background-color: #05386B; 
 		color: #EDF5E1;
-		
 	}
 
 	.button_delete {
@@ -214,6 +213,7 @@
 		z-index: 99;
 		height: 100%; 
 		flex-grow: 1;
+		padding: 20px;
 	}
 
 	.gif {
