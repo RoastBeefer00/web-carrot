@@ -127,7 +127,7 @@
 		</div>
 		<div class="recipe_store">
 			{#each $storeFE as recipe}
-				<div transition:fly="{{x:-300}}">
+				<div class="recipe" transition:fly="{{x:-300}}">
 					<RecipeCard recipes={recipe}/>
 				</div>
 			{/each}
@@ -205,6 +205,11 @@
 
 	.search_bar {
 		width: 70%; 
+	}
+
+	/* RECIPES */
+	.recipe {
+		margin-bottom: 10px;
 	}
 
 	/* BOTTOM HALF */
