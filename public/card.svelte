@@ -1,5 +1,5 @@
 <script>
-    function removeRecipe(recipe) {
+    async function removeRecipe(recipe) {
         for (let index = 0; index < $storeFE.length; index++) {
             if ($storeFE[index] == recipe) {
                 var l = $undo.length;
@@ -10,9 +10,20 @@
                 }
             } 
         }
-        
-        console.log($undo)
-		$storeFE = $storeFE.filter(r => r !== recipe);
+
+        let response = await fetch("https://hae0pt.deta.dev/delete", {
+			method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+			body: JSON.stringify({
+                recipe: recipe,
+                store: $storeFE
+            }),
+		});
+        let recipes = await response.json();
+        $storeFE = recipes;
 	}
 
     async function replaceRecipe(recipe) {
@@ -24,9 +35,8 @@
                     "index": index,
                     "recipe": recipe
                 }
-                let response = await fetch("https://r7qi88.deta.dev/random");
+                let response = await fetch("https://hae0pt.deta.dev/random");
 		        let recipes = await response.json();
-                console.log(recipes[0]);
                 $storeFE[index] = recipes[0];
             } 
         }
@@ -41,14 +51,6 @@
     let visible = false;
 
 	import {
-		Card,
-		CardBody,
-		CardHeader,
-		CardSubtitle,
-		CardTitle,
-		Input,
-		ListGroup,
-		ListGroupItem,
 		Container,
 		Row,
 		Col,

@@ -1,6 +1,6 @@
 <script>
 	async function getRecipes(num) {
-		let response = await fetch("https://r7qi88.deta.dev/random?num="+num);
+		let response = await fetch("https://hae0pt.deta.dev/random?num="+num);
 		let recipes = await response.json();
 		var l = $storeFE.length;
 		recipes.forEach(element => {
@@ -10,7 +10,7 @@
 	}
 
 	async function getFilteredRecipes(filter) {
-		let request = "https://r7qi88.deta.dev/recipes?filter=" + filter;
+		let request = "https://hae0pt.deta.dev/recipes?filter=" + filter;
 		console.log(request);
 		let response = await fetch(request);
 		let recipes = await response.json();
