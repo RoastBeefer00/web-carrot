@@ -11,7 +11,7 @@
             } 
         }
 
-        let response = await fetch("http://127.0.0.1:8000/delete", {
+        let response = await fetch("https://hae0pt.deta.dev/delete", {
 			method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -35,7 +35,7 @@
                     "index": index,
                     "recipe": recipe
                 }
-                let response = await fetch("https://r7qi88.deta.dev/random");
+                let response = await fetch("https://hae0pt.deta.dev/random");
 		        let recipes = await response.json();
                 $storeFE[index] = recipes[0];
             } 

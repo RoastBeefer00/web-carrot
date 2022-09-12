@@ -18,7 +18,7 @@
   let groceries = [];
 
   async function getIngredients() {
-    let response = await fetch("http://127.0.0.1:8000/ingredients", {
+    let response = await fetch("https://hae0pt.deta.dev/ingredients", {
 			method: 'POST',
             headers: {
                 'Accept': 'application/json',
