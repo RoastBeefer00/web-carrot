@@ -35,9 +35,8 @@
                     "index": index,
                     "recipe": recipe
                 }
-                let response = await fetch("https://hae0pt.deta.dev/random");
-		        let recipes = await response.json();
-                $storeFE[index] = recipes[0];
+                let recipes = await invoke('get_recipes', {num: 1});
+		        $storeFE[index] = recipes[0];
             } 
         }
         console.log($undo)
@@ -49,6 +48,8 @@
 
     export let recipes;
     let visible = false;
+
+    import { invoke } from '@tauri-apps/api/tauri';
 
 	import {
 		Container,

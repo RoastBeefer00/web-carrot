@@ -1,14 +1,4 @@
 <script>
-	async function getRecipes(num) {
-		let response = await fetch("https://hae0pt.deta.dev/random?num="+num);
-		let recipes = await response.json();
-		var l = $storeFE.length;
-		recipes.forEach(element => {
-			$storeFE[l] = element;
-			l ++;
-		});	
-	}
-
 	async function getFilteredRecipes(filter) {
 		let request = "https://hae0pt.deta.dev/recipes?filter=" + filter;
 		console.log(request);
@@ -28,7 +18,6 @@
 
 	async function undoTask() {
 		var undoLength = $undo.length;
-		var recipesLength = $storeFE.length;
 		var item = $undo[undoLength - 1];
 		if (item.task == "Delete") {
 			for (let index = ($storeFE.length - 1); index >= item.index; index--) {
@@ -47,23 +36,25 @@
 	let value;
 	let filter;
 
-	import { 
-		Button,
-		Input,
+	import {
 		Icon,
 		Col,
 		Container,
 		Row
 	} from 'sveltestrap';
 
-	import { invoke } from '@tauri-apps/api/tauri'
+	import { invoke } from '@tauri-apps/api/tauri';
 
-	async function getRandomRecipe(num) {
-		let recipe = await invoke('get_random_recipe');
-		console.log(recipe);
+	async function getRandomRecipes(num) {
+		let recipes = await invoke('get_recipes', {num: num});
 		// let recipe =  await response.json();
-		recipe = JSON.parse(recipe);
-		$storeFE[$storeFE.length] = recipe;
+		// recipes = JSON.parse(recipes);
+
+		console.log(recipes);
+
+		recipes.forEach(element => {
+			$storeFE[$storeFE.length] = element;
+		});	
 	}
 
 	import RecipeCard from '../public/card.svelte';
@@ -113,7 +104,7 @@
 							/>
 							<button 
 								class="button button_normal" 
-								on:click={getRandomRecipe} 
+								on:click={getRandomRecipes(value)} 
 								disabled={value == undefined}>
 								<Icon name="plus-circle" />
 								{value !== 1 && value !== undefined ? " Add " + value +" recipes!" : " Add recipe!"}
