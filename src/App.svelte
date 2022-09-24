@@ -56,6 +56,16 @@
 		Row
 	} from 'sveltestrap';
 
+	import { invoke } from '@tauri-apps/api/tauri'
+
+	async function getRandomRecipe(num) {
+		let recipe = await invoke('get_random_recipe');
+		console.log(recipe);
+		// let recipe =  await response.json();
+		recipe = JSON.parse(recipe);
+		$storeFE[$storeFE.length] = recipe;
+	}
+
 	import RecipeCard from '../public/card.svelte';
 	import { storeFE, undo } from '../scripts/store.js'
 	import GroceryList  from '../public/GroceryList.svelte';
@@ -103,7 +113,7 @@
 							/>
 							<button 
 								class="button button_normal" 
-								on:click={getRecipes(value)} 
+								on:click={getRandomRecipe} 
 								disabled={value == undefined}>
 								<Icon name="plus-circle" />
 								{value !== 1 && value !== undefined ? " Add " + value +" recipes!" : " Add recipe!"}
