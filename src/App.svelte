@@ -1,9 +1,9 @@
 <script>
 	async function getFilteredRecipes(filter) {
-		let request = "https://hae0pt.deta.dev/recipes?filter=" + filter;
-		console.log(request);
-		let response = await fetch(request);
-		let recipes = await response.json();
+		let recipes = await invoke('get_filtered_recipes', {filter: filter});
+		// console.log(request);
+		// let response = await fetch(request);
+		// let recipes = await response.json();
 
 		var l = $storeFE.length;
 		recipes.forEach(element => {

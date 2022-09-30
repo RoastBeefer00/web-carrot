@@ -8,22 +8,11 @@
                     "index": index,
                     "recipe": recipe
                 }
+
+                recipes = await invoke('remove_recipe', {index: index, store: $storeFE});
+                $storeFE = recipes;
             } 
         }
-
-        let response = await fetch("https://hae0pt.deta.dev/delete", {
-			method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-			body: JSON.stringify({
-                recipe: recipe,
-                store: $storeFE
-            }),
-		});
-        let recipes = await response.json();
-        $storeFE = recipes;
 	}
 
     async function replaceRecipe(recipe) {
