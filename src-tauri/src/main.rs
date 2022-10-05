@@ -36,6 +36,20 @@ fn read_user_from_file<P: AsRef<Path>>(path: P) -> Result<Root, Box<dyn Error>> 
     Ok(u)
 }
 
+// fn ingredients(store: Vec<Recipe>) -> Vec<> {
+//     let mut ingredients = Vec::new();
+//     for recipe in store {
+//         for ingredient in recipe.ingredients {
+//             ingredients.push(ingredient);
+//         }
+//     }
+//     ingredients = class_ingredients(ingredients);
+//     ingredients = alphabetize_ingredients(ingredients);
+//     ingredients = combine_ingredients(ingredients);
+
+//     ingredients
+// }
+
 #[tauri::command]
 fn remove_recipe(index: usize, mut store: Vec<Recipe>) -> Vec<Recipe> {
     store.remove(index);
